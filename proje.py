@@ -12,7 +12,7 @@ drive.mount('/content/drive')
 
 import pandas
 
-df= pandas.read_excel("/content/drive/MyDrive/machineLearning/glassLearning.xlsx") # Veri Seti Okunur
+df= pandas.read_excel("glassLearning.xlsx") # Veri Seti Okunur
 df.drop('ID',axis=1, inplace=True) #ID tablodan silinir
 
 #Her Özellik için normalizasyon yapılır
