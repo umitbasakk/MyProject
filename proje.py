@@ -8,7 +8,6 @@ Original file is located at
 """
 
 
-from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
@@ -43,3 +42,50 @@ df['Fe'] = df['Fe'].apply(lambda v: (v - df['Fe'].min()) / (df['Fe'].max() - df[
 
 
 st.write("My Model")
+###Filtre Yöntemi ile Özellik eleme Korelasyonu 0.55 üstü özellikler tutulur.
+target = 'Type'
+korelasyon = df.corr()
+korelasyon_hdf = abs(korelasyon[target])
+secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.55].index.tolist()
+FList = df[secilen_ozellik]
+secilen_ozellik.remove('Type')
+FListNoClass = df[secilen_ozellik]
+
+
+######################################################################## PCA ########################################################################
+
+# Özellikler (bağımsız değişkenler) ve hedef değişken (bağımlı değişken) olarak ayırma
+X = FList.drop(columns=[target])
+y = FList[target]
+
+skaler = StandardScaler()
+X_scaled = skaler.fit_transform(X)
+
+pca = PCA(n_components=3)
+X_pca = pca.fit_transform(X_scaled)
+
+xTrain, xTest, yTrain, yTest = train_test_split(X_pca, y, test_size=testSize, random_state=42)
+
+rf_model = RandomForestClassifier(random_state=42)
+rf_model.fit(xTrain, yTrain)
+
+yPred = rf_model.predict(xTest)
+
+yt = pd.DataFrame(yTest)
+class_names = yt['Type'].unique()
+cmatrix = confusion_matrix(yTest, yPred)
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(cmatrix, annot=True, cmap='Blues', fmt='g', xticklabels=class_names, yticklabels=class_names)
+plt.title('PCA Karışıklık Matrisi')
+plt.show()
+
+accuracypca = accuracy_score(yTest, yPred)
+precisionpca = precision_score(yTest, yPred, average='macro')
+recallpca = recall_score(yTest, yPred, average='macro')
+f1pca = f1_score(yTest, yPred, average='macro')
+
+print("PCA Doğruluk:", accuracypca)
+print("PCA Hassasiyet:", precisionpca)
+print("PCA Duyarlılık:", recallpca)
+print("PCA F1 Skoru:", f1pca)
