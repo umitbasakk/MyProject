@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1ur9s-9PBiiWfD_y0-Pz0jaS1uBmd8DH1
 """
 
-
+import streamlit as st 
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
@@ -23,7 +23,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
-import streamlit as st 
 import pandas
 
 df= pandas.read_excel("glassLearning.xlsx") # Veri Seti Okunur
