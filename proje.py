@@ -8,6 +8,38 @@ Original file is located at
 """
 
 
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestClassifier
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd
 import streamlit as st 
+import pandas
+
+df= pandas.read_excel("glassLearning.xlsx") # Veri Seti Okunur
+df.drop('ID',axis=1, inplace=True) #ID tablodan silinir
+
+#Her Özellik için normalizasyon yapılır
+df['RI'] = df['RI'].apply(lambda v: (v - df['RI'].min()) / (df['RI'].max() - df['RI'].min()))
+df['Na'] = df['Na'].apply(lambda v: (v - df['Na'].min()) / (df['Na'].max() - df['Na'].min()))
+df['Mg'] = df['Mg'].apply(lambda v: (v - df['Mg'].min()) / (df['Mg'].max() - df['Mg'].min()))
+df['Al'] = df['Al'].apply(lambda v: (v - df['Al'].min()) / (df['Al'].max() - df['Al'].min()))
+df['Si'] = df['Si'].apply(lambda v: (v - df['Si'].min()) / (df['Si'].max() - df['Si'].min()))
+df['K'] = df['K'].apply(lambda v: (v - df['K'].min()) / (df['K'].max() - df['K'].min()))
+df['Ca'] = df['Ca'].apply(lambda v: (v - df['Ca'].min()) / (df['Ca'].max() - df['Ca'].min()))
+df['Ba'] = df['Ba'].apply(lambda v: (v - df['Ba'].min()) / (df['Ba'].max() - df['Ba'].min()))
+df['Fe'] = df['Fe'].apply(lambda v: (v - df['Fe'].min()) / (df['Fe'].max() - df['Fe'].min()))
+
 
 st.write("My Model")
