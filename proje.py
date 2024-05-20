@@ -85,9 +85,25 @@ yPred = rf_model.predict(xTest)
 
 yt = pd.DataFrame(yTest)
 class_names = yt['Type'].unique()
+class_namesEq = [None] * len(class_names)
+
 cmatrix = confusion_matrix(yTest, yPred)
 
-tableMatris = pd.DataFrame(cmatrix, index=class_names, columns=class_names)
+for i in range(len(class_namesEq)):
+    if class_names[i] == 1:
+        class_namesEq[i] = "F.İ Görmüş Bina Penceresi"
+    elif class_names[i] == 2:
+        class_namesEq[i] = "F.İ Görmemiş Bina Penceresi"
+    elif class_names[i] == 3:
+        class_namesEq[i] = "F.İ Görmüş Araç Camı"
+    elif class_names[i] == 5:
+        class_namesEq[i] = "Konteyner Camı"
+    elif class_names[i] == 6:
+        class_namesEq[i] = "Yemek Takımları"
+    elif class_names[i] == 7:
+        class_namesEq[i] = "Far Camı"            
+print(class_namesEq[0])
+tableMatris = pd.DataFrame(cmatrix, index=class_namesEq, columns=class_namesEq)
 st.write("""
     <div style="text-align: center;">
         PCA Uygulandıktan Sonra
