@@ -25,9 +25,21 @@ import numpy as np
 import pandas as pd
 import pandas
 
-df= pandas.read_excel("glassLearning.xlsx") # Veri Seti Okunur
-df.drop('ID',axis=1, inplace=True) #ID tablodan silinir
+st.write("""
+    <div style="text-align: center;">
+       Filtre Yöntemi ile Özellik İndirgenen Veri Setine PCA Modelleme
+    </div>
+""", unsafe_allow_html=True)
+st.write("""
+    <div style="text-align: center;">
+        030122073 - Ümit Başak
+    </div>
+""", unsafe_allow_html=True)
 
+st.write("Veri")
+df= pandas.read_excel("glassLearning.xlsx") # Veri Seti Okunur
+st.write(df)
+df.drop('ID',axis=1, inplace=True) #ID tablodan silinir
 #Her Özellik için normalizasyon yapılır
 df['RI'] = df['RI'].apply(lambda v: (v - df['RI'].min()) / (df['RI'].max() - df['RI'].min()))
 df['Na'] = df['Na'].apply(lambda v: (v - df['Na'].min()) / (df['Na'].max() - df['Na'].min()))
@@ -38,9 +50,9 @@ df['K'] = df['K'].apply(lambda v: (v - df['K'].min()) / (df['K'].max() - df['K']
 df['Ca'] = df['Ca'].apply(lambda v: (v - df['Ca'].min()) / (df['Ca'].max() - df['Ca'].min()))
 df['Ba'] = df['Ba'].apply(lambda v: (v - df['Ba'].min()) / (df['Ba'].max() - df['Ba'].min()))
 df['Fe'] = df['Fe'].apply(lambda v: (v - df['Fe'].min()) / (df['Fe'].max() - df['Fe'].min()))
-
-
-st.write("My Model")
+st.write("Normalizasyon Sonrası:")
+st.write(df)
+testSize=0.1
 ###Filtre Yöntemi ile Özellik eleme Korelasyonu 0.55 üstü özellikler tutulur.
 target = 'Type'
 korelasyon = df.corr()
@@ -49,6 +61,7 @@ secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.55].index.tolist()
 FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
 FListNoClass = df[secilen_ozellik]
+
 
 
 ######################################################################## PCA ########################################################################
@@ -74,17 +87,26 @@ yt = pd.DataFrame(yTest)
 class_names = yt['Type'].unique()
 cmatrix = confusion_matrix(yTest, yPred)
 
-plt.figure(figsize=(8, 6))
-sns.heatmap(cmatrix, annot=True, cmap='Blues', fmt='g', xticklabels=class_names, yticklabels=class_names)
-plt.title('PCA Karışıklık Matrisi')
-plt.show()
+tableMatris = pd.DataFrame(cmatrix, index=class_names, columns=class_names)
+st.write("""
+    <div style="text-align: center;">
+        PCA Uygulandıktan Sonra
+    </div>
+""", unsafe_allow_html=True)
+st.write("Karışıklık Matrisi:")
+st.table(tableMatris.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
 
 accuracypca = accuracy_score(yTest, yPred)
 precisionpca = precision_score(yTest, yPred, average='macro')
 recallpca = recall_score(yTest, yPred, average='macro')
 f1pca = f1_score(yTest, yPred, average='macro')
 
-print("PCA Doğruluk:", accuracypca)
-print("PCA Hassasiyet:", precisionpca)
-print("PCA Duyarlılık:", recallpca)
-print("PCA F1 Skoru:", f1pca)
+st.write("PCA Doğruluk:", accuracypca*100)
+st.write("PCA Hassasiyet:", precisionpca*100)
+st.write("PCA Duyarlılık:", recallpca*100)
+st.write("PCA F1 Skoru:", f1pca*100)
+st.write("""
+    <div style="text-align: center;">
+        86.3% doğruluk ile en başarılı modelim olmuştur.
+    </div>
+""", unsafe_allow_html=True)
