@@ -63,8 +63,20 @@ secilen_ozellik.remove('Type')
 FListNoClass = df[secilen_ozellik]
 
 
-col1, col2 =st.columns(2)
-Ri_value = col1.number_input("RI",min_value=-1,value=1)
+col1, col2, col3 =st.columns(3)
+
+Ri_value = col1.number_input("RI",min_value=-2.0,value=2.0)
+Na_value = col1.number_input("Na",min_value=-2.0,value=2.0)
+Mg_value = col1.number_input("Mg",min_value=-2.0,value=2.0)
+
+Ri_value = col2.number_input("RI",min_value=-2.0,value=2.0)
+Na_value = col2.number_input("Na",min_value=-2.0,value=2.0)
+Mg_value = col2.number_input("Mg",min_value=-2.0,value=2.0)
+
+Ri_value = col3.number_input("RI",min_value=-2.0,value=2.0)
+Na_value = col3.number_input("Na",min_value=-2.0,value=2.0)
+Mg_value = col3.number_input("Mg",min_value=-2.0,value=2.0)
+
 ######################################################################## PCA ########################################################################
 
 # Özellikler (bağımsız değişkenler) ve hedef değişken (bağımlı değişken) olarak ayırma
