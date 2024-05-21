@@ -38,7 +38,6 @@ st.write("""
 
 st.write("Veri")
 df= pandas.read_excel("glassLearning.xlsx") # Veri Seti Okunur
-st.write(df)
 df.drop('ID',axis=1, inplace=True) #ID tablodan silinir
 #Her Özellik için normalizasyon yapılır
 df['RI'] = df['RI'].apply(lambda v: (v - df['RI'].min()) / (df['RI'].max() - df['RI'].min()))
@@ -50,8 +49,6 @@ df['K'] = df['K'].apply(lambda v: (v - df['K'].min()) / (df['K'].max() - df['K']
 df['Ca'] = df['Ca'].apply(lambda v: (v - df['Ca'].min()) / (df['Ca'].max() - df['Ca'].min()))
 df['Ba'] = df['Ba'].apply(lambda v: (v - df['Ba'].min()) / (df['Ba'].max() - df['Ba'].min()))
 df['Fe'] = df['Fe'].apply(lambda v: (v - df['Fe'].min()) / (df['Fe'].max() - df['Fe'].min()))
-st.write("Normalizasyon Sonrası:")
-st.write(df)
 testSize=0.1
 ###Filtre Yöntemi ile Özellik eleme Korelasyonu 0.55 üstü özellikler tutulur.
 target = 'Type'
@@ -69,13 +66,13 @@ Ri_value = col1.number_input("RI",min_value=-2.0,max_value=5.0,value=0.0)
 Na_value = col1.number_input("Na",min_value=-2.0,max_value=5.0,value=0.0)
 Mg_value = col1.number_input("Mg",min_value=-2.0,max_value=5.0,value=0.0)
 
-Al_value = col2.number_input("Al",min_value=-2.0,value=2.0)
-Si_value = col2.number_input("Si",min_value=-2.0,value=2.0)
-K_value = col2.number_input("K",min_value=-2.0,value=2.0)
+Al_value = col2.number_input("Al",min_value=-2.0,max_value=5.0,value=0.0)
+Si_value = col2.number_input("Si",min_value=-2.0,max_value=5.0,value=0.0)
+K_value = col2.number_input("K",min_value=-2.0,max_value=5.0,value=0.0)
 
-Ca_value = col3.number_input("Ca",min_value=-2.0,value=2.0)
-Ba_value = col3.number_input("Ba",min_value=-2.0,value=2.0)
-Fe_value = col3.number_input("Fe",min_value=-2.0,value=2.0)
+Ca_value = col3.number_input("Ca",min_value=-2.0,max_value=5.0,value=0.0)
+Ba_value = col3.number_input("Ba",min_value=-2.0,max_value=5.0,value=0.0)
+Fe_value = col3.number_input("Fe",min_value=-2.0,max_value=5.0,value=0.0)
 
 ######################################################################## PCA ########################################################################
 
