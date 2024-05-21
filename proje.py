@@ -76,7 +76,7 @@ K_value = col2.number_input("K",min_value=-2.0,max_value=5.0,value=0.0)
 Ca_value = col3.number_input("Ca",min_value=-2.0,max_value=5.0,value=0.0)
 Ba_value = col3.number_input("Ba",min_value=-2.0,max_value=5.0,value=0.0)
 Fe_value = col3.number_input("Fe",min_value=-2.0,max_value=5.0,value=0.0)
-
+st.write(Ri_value)
 ######################################################################## PCA ########################################################################
 
 # Özellikler (bağımsız değişkenler) ve hedef değişken (bağımlı değişken) olarak ayırma
