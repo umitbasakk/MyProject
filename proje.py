@@ -76,7 +76,14 @@ K_value = col2.number_input("K",min_value=-2.0,max_value=5.0,value=0.0)
 Ca_value = col3.number_input("Ca",min_value=-2.0,max_value=5.0,value=0.0)
 Ba_value = col3.number_input("Ba",min_value=-2.0,max_value=5.0,value=0.0)
 Fe_value = col3.number_input("Fe",min_value=-2.0,max_value=5.0,value=0.0)
-st.write(Ri_value)
+st.write("Girilen Data")
+
+datas = ["RI","Na","Mg","Al","Si","K","Ca","Ba","Fe"]
+values =[Ri_value,Na_value,Mg_value,Al_value,Si_value,K_value,Ca_value,Ba_value,Fe_value]
+tableMatrix = pd.DataFrame(values, index=datas, columns=datas)
+st.table(tableMatrix.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
+
+
 ######################################################################## PCA ########################################################################
 
 # Özellikler (bağımsız değişkenler) ve hedef değişken (bağımlı değişken) olarak ayırma
