@@ -59,9 +59,12 @@ FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
 FListNoClass = df[secilen_ozellik]
 
-
+st.write("""
+    <div style="text-align: center;text-color:#ff0000;">
+        Input Data
+    </div>
+""", unsafe_allow_html=True)
 col1, col2, col3 =st.columns(3)
-
 Ri_value = col1.number_input("RI",min_value=-2.0,max_value=5.0,value=0.0)
 Na_value = col1.number_input("Na",min_value=-2.0,max_value=5.0,value=0.0)
 Mg_value = col1.number_input("Mg",min_value=-2.0,max_value=5.0,value=0.0)
