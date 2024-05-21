@@ -80,7 +80,7 @@ st.write("Girilen Data")
 
 datas = ["RI","Na","Mg","Al","Si","K","Ca","Ba","Fe"]
 values =[Ri_value,Na_value,Mg_value,Al_value,Si_value,K_value,Ca_value,Ba_value,Fe_value]
-tableMatrix = pd.DataFrame([values],index=1, columns=datas)
+tableMatrix = pd.DataFrame([values], columns=datas)
 st.table(tableMatrix.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
 
 
