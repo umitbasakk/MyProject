@@ -63,7 +63,8 @@ secilen_ozellik.remove('Type')
 FListNoClass = df[secilen_ozellik]
 
 
-
+col1, col2 =st.columns(2)
+Ri_value = col1.number_input("RI",min_value=-1,value=1)
 ######################################################################## PCA ########################################################################
 
 # Özellikler (bağımsız değişkenler) ve hedef değişken (bağımlı değişken) olarak ayırma
@@ -85,9 +86,9 @@ yPred = rf_model.predict(xTest)
 
 yt = pd.DataFrame(yTest)
 class_names = yt['Type'].unique()
-class_namesEq = [None] * len(class_names)
-
 cmatrix = confusion_matrix(yTest, yPred)
+
+class_namesEq = [None] * len(class_names)
 
 for i in range(len(class_namesEq)):
     if class_names[i] == 1:
@@ -102,7 +103,7 @@ for i in range(len(class_namesEq)):
         class_namesEq[i] = "Yemek Takımları"
     elif class_names[i] == 7:
         class_namesEq[i] = "Far Camı"            
-print(class_namesEq[0])
+
 tableMatris = pd.DataFrame(cmatrix, index=class_namesEq, columns=class_namesEq)
 st.write("""
     <div style="text-align: center;">
