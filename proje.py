@@ -65,9 +65,9 @@ FListNoClass = df[secilen_ozellik]
 
 col1, col2, col3 =st.columns(3)
 
-Ri_value = col1.number_input("RI",min_value=-2.0,value=2.0)
-Na_value = col1.number_input("Na",min_value=-2.0,value=2.0)
-Mg_value = col1.number_input("Mg",min_value=-2.0,value=2.0)
+Ri_value = col1.number_input("RI",min_value=-2.0,max_value=5.0,value=0.0)
+Na_value = col1.number_input("Na",min_value=-2.0,max_value=5.0,value=0.0)
+Mg_value = col1.number_input("Mg",min_value=-2.0,max_value=5.0,value=0.0)
 
 Al_value = col2.number_input("Al",min_value=-2.0,value=2.0)
 Si_value = col2.number_input("Si",min_value=-2.0,value=2.0)
