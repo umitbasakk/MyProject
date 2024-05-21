@@ -78,8 +78,8 @@ Ba_value = col3.number_input("Ba",min_value=-2.0,max_value=5.0,value=0.0)
 Fe_value = col3.number_input("Fe",min_value=-2.0,max_value=5.0,value=0.0)
 st.write("Girilen Data")
 
-datas = ["RI","Na","Mg","Al","Si","K","Ca","Ba","Fe"]
-values =[Ri_value,Na_value,Mg_value,Al_value,Si_value,K_value,Ca_value,Ba_value,Fe_value]
+datas = ["ID","RI","Na","Mg","Al","Si","K","Ca","Ba","Fe"]
+values =[1,Ri_value,Na_value,Mg_value,Al_value,Si_value,K_value,Ca_value,Ba_value,Fe_value]
 tableMatrix = pd.DataFrame([values], columns=datas)
 st.table(tableMatrix.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
 
