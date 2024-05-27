@@ -9,17 +9,14 @@ Original file is located at
 import streamlit as st 
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, f1_score
-from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
 import pandas as pd
 import joblib
 
+# Streamlit başlığı ve açıklamaları
 st.write("""
     <div style="text-align: center;">
         Filtre Yöntemi ile Özellik İndirgenen Veri Setine PCA Modelleme
@@ -31,8 +28,14 @@ st.write("""
     </div>
 """, unsafe_allow_html=True)
 
+# Veri yükleme ve ön işleme
 st.write("Veri")
-df = pd.read_excel("glassLearning.xlsx")  # Veri Seti Okunur
+try:
+    df = pd.read_excel("glassLearning.xlsx")  # Veri Seti Okunur
+except Exception as e:
+    st.error("Veri seti yüklenemedi. Lütfen dosya yolunu kontrol edin.")
+    st.stop()
+
 df.drop('ID', axis=1, inplace=True)  # ID tablodan silinir
 
 # Her Özellik için normalizasyon yapılır
@@ -40,7 +43,7 @@ features = ['RI', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Ba', 'Fe']
 for feature in features:
     df[feature] = df[feature].apply(lambda v: (v - df[feature].min()) / (df[feature].max() - df[feature].min()))
 
-### Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur
+# Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur
 target = 'Type'
 korelasyon = df.corr()
 korelasyon_hdf = abs(korelasyon[target])
@@ -125,18 +128,18 @@ st.write("""
     </div>
 """, unsafe_allow_html=True)
 
-# Model ve scaler dosyalarını kaydedin (eğer gerekirse)
-joblib.dump(knn_model, 'knn_model.pkl')
-joblib.dump(skaler, 'scaler.pkl')
-
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
-user_input = pd.DataFrame([values], columns=secilen_ozellik)
-user_input_scaled = skaler.transform(user_input)
-knn_user_prediction = knn_model.predict(user_input_scaled)
+try:
+    # secilen_ozellik listesi kullanılarak user_input DataFrame oluşturuluyor
+    user_input = pd.DataFrame([values], columns=features)
+    user_input_scaled = skaler.transform(user_input)
+    knn_user_prediction = knn_model.predict(user_input_scaled)
 
-st.write("""
-    <div style="text-align: center;">
-        Kullanıcı Girişi ile Tahmin
-    </div>
-""", unsafe_allow_html=True)
-st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0]-1]}")
+    st.write("""
+        <div style="text-align: center;">
+            Kullanıcı Girişi ile Tahmin
+        </div>
+    """, unsafe_allow_html=True)
+    st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0]-1]}")
+except Exception as e:
+    st.error("Kullanıcı girişi ile tahmin yapılamadı. Lütfen girdi verilerini kontrol edin.")
