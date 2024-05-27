@@ -50,7 +50,6 @@ korelasyon_hdf = abs(korelasyon[target])
 secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.3].index.tolist()
 FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
-secilen_ozellik.remove('ID')
 FListNoClass = df[secilen_ozellik]
 
 
