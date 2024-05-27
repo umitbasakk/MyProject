@@ -43,13 +43,16 @@ features = ['RI', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Ba', 'Fe']
 for feature in features:
     df[feature] = df[feature].apply(lambda v: (v - df[feature].min()) / (df[feature].max() - df[feature].min()))
 
-# Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur
+###Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur.
 target = 'Type'
 korelasyon = df.corr()
 korelasyon_hdf = abs(korelasyon[target])
 secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.3].index.tolist()
 FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
+secilen_ozellik.remove('ID')
+FListNoClass = df[secilen_ozellik]
+
 
 # Kullanıcıdan giriş verilerini alın
 st.write("""
