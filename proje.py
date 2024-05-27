@@ -81,7 +81,7 @@ st.table(tableMatrix.style.set_table_attributes('style="font-size: 20px; width: 
 X = FList.iloc[:, :-1]
 y = FList.iloc[:, -1]
 
-testSize = 0.1
+testSize = 0.3
 xTrain, xTest, yTrain, yTest = train_test_split(X, y, test_size=testSize, random_state=42)
 
 skaler = StandardScaler()
