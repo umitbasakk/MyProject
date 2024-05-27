@@ -64,7 +64,7 @@ Na_value = col1.number_input("Na", min_value=-20.0, max_value=50.0, value=0.0)
 Mg_value = col1.number_input("Mg", min_value=-20.0, max_value=50.0, value=0.0)
 
 Al_value = col2.number_input("Al", min_value=-20.0, max_value=50.0, value=0.0)
-Si_value = col2.number_input("Si", min_value=-20.0, max_value=50.0, value=0.0)
+Si_value = col2.number_input("Si", min_value=-20.0, max_value=100.0, value=0.0)
 K_value = col2.number_input("K", min_value=-20.0, max_value=50.0, value=0.0)
 
 Ca_value = col3.number_input("Ca", min_value=-20.0, max_value=50.0, value=0.0)
