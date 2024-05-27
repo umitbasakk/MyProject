@@ -131,7 +131,7 @@ st.write("""
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
 try:
     # secilen_ozellik listesi kullanılarak user_input DataFrame oluşturuluyor
-    user_input = pd.DataFrame([values], columns=features)
+    user_input = tableMatrix
     user_input_scaled = skaler.transform(user_input)
     knn_user_prediction = knn_model.predict(user_input_scaled)
 
