@@ -81,7 +81,7 @@ st.table(tableMatrix.style.set_table_attributes('style="font-size: 20px; width: 
 X = FList.iloc[:, :-1]
 y = FList.iloc[:, -1]
 
-testSize = 0.14
+testSize = 0.2
 xTrain, xTest, yTrain, yTest = train_test_split(X, y, test_size=testSize, random_state=42)
 
 skaler = StandardScaler()
@@ -132,14 +132,13 @@ st.write("""
 try:
     # secilen_ozellik listesi kullanılarak user_input DataFrame oluşturuluyor
     user_input = tableMatrix
-    user_input_scaled = skaler.transform(user_input)
-    knn_user_prediction = knn_model.predict(user_input_scaled)
+    knn_user_prediction = knn_model.predict(user_input)
 
     st.write("""
         <div style="text-align: center;">
             Kullanıcı Girişi ile Tahmin
         </div>
     """, unsafe_allow_html=True)
-    st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0]-1]}")
+    st.write(f"Tahmin: aa")
 except Exception as e:
     st.error("Kullanıcı girişi ile tahmin yapılamadı. Lütfen girdi verilerini kontrol edin.")
