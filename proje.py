@@ -133,10 +133,9 @@ st.write("""
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
 # Girdi verilerini ölçeklendirin
 if not user_input.isnull().values.any():  # Check if there are no null values
-    user_input_scaled = skaler.transform(user_input)
 
     # Tahmin yapın
-    knn_user_prediction = knn_model.predict(user_input_scaled)
+    knn_user_prediction = knn_model.predict(user_input)
 
     st.write("""
         <div style="text-align: center;">
