@@ -133,10 +133,10 @@ precisionknn = precision_score(yTest, yPred, average='macro',zero_division=1)
 recallknn = recall_score(yTest, yPred, average='macro',zero_division=1)
 f1knn = f1_score(yTest, yPred, average='macro',zero_division=1)
 
-print("k-nn Doğruluk:", accuracyknn)
-print("k-nn Hassasiyet:", precisionknn)
-print("k-nn Duyarlılık:", recallknn)
-print("k-nnF1 Skoru:", f1knn)
+st.write("k-nn Doğruluk:", accuracyknn)
+st.write("k-nn Hassasiyet:", precisionknn)
+st.write("k-nn Duyarlılık:", recallknn)
+st.write("k-nnF1 Skoru:", f1knn)
 
 
 st.write("""
