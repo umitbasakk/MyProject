@@ -133,7 +133,6 @@ st.write("""
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
 # Girdi verilerini ölçeklendirin
 if not user_input.isnull().values.any():  # Check if there are no null values
-    try:
         user_input_scaled = skaler.transform(user_input)
         
         # Tahmin yapın
@@ -147,7 +146,5 @@ if not user_input.isnull().values.any():  # Check if there are no null values
         
         # Tahmin sonucunu sınıf adıyla birlikte gösterin
         st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0] - 1]}")
-    except Exception as e:
-        st.error(f"Tahmin yapılırken bir hata oluştu: {e}")
 else:
     st.error("Kullanıcı girişi eksik veya hatalı. Lütfen tüm verileri doldurun.")
