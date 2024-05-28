@@ -43,7 +43,7 @@ features = ['RI', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Ba', 'Fe']
 for feature in features:
     df[feature] = df[feature].apply(lambda v: (v - df[feature].min()) / (df[feature].max() - df[feature].min()))
 
-### Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur.
+# Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur.
 target = 'Type'
 korelasyon = df.corr()
 korelasyon_hdf = abs(korelasyon[target])
@@ -51,7 +51,6 @@ secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.3].index.tolist()
 FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
 FListNoClass = df[secilen_ozellik]
-
 
 # Kullanıcıdan giriş verilerini alın
 st.write("""
@@ -145,6 +144,6 @@ if not user_input.isnull().values.any():  # Check if there are no null values
     """, unsafe_allow_html=True)
     
     # Tahmin sonucunu sınıf adıyla birlikte gösterin
-     st.write("Tahmin: {class_namesEq[knn_user_prediction[0]]}")
+    st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0]]}")
 else:
     st.error("Kullanıcı girişi eksik veya hatalı. Lütfen tüm verileri doldurun.")
