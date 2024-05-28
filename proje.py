@@ -50,7 +50,6 @@ korelasyon_hdf = abs(korelasyon[target])
 secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.3].index.tolist()
 FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
-secilen_ozellik.remove('ID')
 FListNoClass = df[secilen_ozellik]
 # Kullanıcıdan giriş verilerini alın
 st.write("""
@@ -152,7 +151,7 @@ if not user_input.isnull().values.any():  # Check if there are no null values
     user_input_scaled = skaler.transform(user_input[secilen_ozellik])
     
     # Tahmin yapın
-    knn_user_prediction = knn_model.predict(user_input_scaled)
+    knn_user_prediction = knnmodel.predict(user_input_scaled)
     
     st.write("""
         <div style="text-align: center;">
