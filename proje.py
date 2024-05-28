@@ -99,7 +99,7 @@ yPred = knnmodel.predict(Xtest_scaled)
 
 yt = pd.DataFrame(yTest)
 class_names = yt['Type'].unique()
-cmatrix = confusion_matrix(yTest, yPred)
+knn_cmatrix = confusion_matrix(yTest, yPred)
 
 class_namesEq = [None] * len(class_names)
 
