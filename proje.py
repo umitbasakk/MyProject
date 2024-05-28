@@ -43,7 +43,7 @@ features = ['RI', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Ba', 'Fe']
 for feature in features:
     df[feature] = df[feature].apply(lambda v: (v - df[feature].min()) / (df[feature].max() - df[feature].min()))
 
-###Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur.
+### Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur.
 target = 'Type'
 korelasyon = df.corr()
 korelasyon_hdf = abs(korelasyon[target])
@@ -131,9 +131,10 @@ st.write("""
 """, unsafe_allow_html=True)
 
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
-    # Girdi verilerini ölçeklendirin
+# Girdi verilerini ölçeklendirin
+if not user_input.isnull().values.any():  # Check if there are no null values
     user_input_scaled = skaler.transform(user_input)
-    
+
     # Tahmin yapın
     knn_user_prediction = knn_model.predict(user_input_scaled)
 
@@ -142,7 +143,8 @@ st.write("""
             Kullanıcı Girişi ile Tahmin
         </div>
     """, unsafe_allow_html=True)
-    
+
     # Tahmin sonucunu sınıf adıyla birlikte gösterin
     st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0] - 1]}")
-
+else:
+    st.error("Kullanıcı girişi eksik veya hatalı. Lütfen tüm verileri doldurun.")
