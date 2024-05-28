@@ -76,8 +76,8 @@ Fe_value = col3.number_input("Fe", min_value=-20.0, max_value=50.0, value=0.0)
 st.write("Girilen Data")
 datas = ["RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe"]
 values = [Ri_value, Na_value, Mg_value, Al_value, Si_value, K_value, Ca_value, Ba_value, Fe_value]
-tableMatrix = pd.DataFrame([values], columns=datas)
-st.table(tableMatrix.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
+user_input = pd.DataFrame([values], columns=datas)
+st.table(user_input.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
 
 # Modelleme ve değerlendirme
 X = FList.iloc[:, :-1]
@@ -132,15 +132,19 @@ st.write("""
 
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
 try:
-    # secilen_ozellik listesi kullanılarak user_input DataFrame oluşturuluyor
-    user_input = tableMatrix
-    knn_user_prediction = knn_model.predict(user_input)
+    # Girdi verilerini ölçeklendirin
+    user_input_scaled = skaler.transform(user_input)
+    
+    # Tahmin yapın
+    knn_user_prediction = knn_model.predict(user_input_scaled)
 
     st.write("""
         <div style="text-align: center;">
             Kullanıcı Girişi ile Tahmin
         </div>
     """, unsafe_allow_html=True)
-    st.write(f"Tahmin: aa")
+    
+    # Tahmin sonucunu sınıf adıyla birlikte gösterin
+    st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0] - 1]}")
 except Exception as e:
     st.error("Kullanıcı girişi ile tahmin yapılamadı. Lütfen girdi verilerini kontrol edin.")
