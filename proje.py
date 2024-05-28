@@ -131,20 +131,20 @@ st.write("""
 """, unsafe_allow_html=True)
 
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
-# Girdi verilerini ölçeklendirin
 if not user_input.isnull().values.any():  # Check if there are no null values
-        user_input_scaled = skaler.transform(user_input)
-        
-        # Tahmin yapın
-        knn_user_prediction = knn_model.predict(user_input_scaled)
-        
-        st.write("""
-            <div style="text-align: center;">
-                Kullanıcı Girişi ile Tahmin
-            </div>
-        """, unsafe_allow_html=True)
-        
-        # Tahmin sonucunu sınıf adıyla birlikte gösterin
-        st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0] - 1]}")
+    # secilen_ozellik listesi kullanılarak user_input DataFrame oluşturuluyor
+    user_input_scaled = skaler.transform(user_input[secilen_ozellik])
+    
+    # Tahmin yapın
+    knn_user_prediction = knn_model.predict(user_input_scaled)
+    
+    st.write("""
+        <div style="text-align: center;">
+            Kullanıcı Girişi ile Tahmin
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Tahmin sonucunu sınıf adıyla birlikte gösterin
+    st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0] - 1]}")
 else:
     st.error("Kullanıcı girişi eksik veya hatalı. Lütfen tüm verileri doldurun.")
