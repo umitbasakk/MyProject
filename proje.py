@@ -142,8 +142,8 @@ if not user_input.isnull().values.any():  # Check if there are no null values
             Kullanıcı Girişi ile Tahmin
         </div>
     """, unsafe_allow_html=True)
-    
+    print(knn_user_prediction[0])
     # Tahmin sonucunu sınıf adıyla birlikte gösterin
-    st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0]]}")
+    st.write(f"Tahmin: {class_namesEq[]}")
 else:
     st.error("Kullanıcı girişi eksik veya hatalı. Lütfen tüm verileri doldurun.")
