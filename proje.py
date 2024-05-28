@@ -50,6 +50,7 @@ korelasyon_hdf = abs(korelasyon[target])
 secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.3].index.tolist()
 FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
+secilen_ozellik.remove('ID')
 FListNoClass = df[secilen_ozellik]
 # Kullanıcıdan giriş verilerini alın
 st.write("""
@@ -77,6 +78,7 @@ values = [Ri_value, Na_value, Mg_value, Al_value, Si_value, K_value, Ca_value, B
 user_input = pd.DataFrame([values], columns=datas)
 st.table(user_input.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
 
+###new
 
 ######################################################################## k-nn Veri Modeli ########################################################################################################################
 
@@ -117,10 +119,14 @@ for i in range(len(class_namesEq)):
         class_namesEq[i] = "Far Camı"
 
 
-plt.figure(figsize=(8, 6))
-sns.heatmap(cmatrix, annot=True, cmap='Blues', fmt='g', xticklabels=class_namesEq, yticklabels=class_namesEq)
-plt.title('k-NN Ağacı Karışıklık Matrisi')
-plt.show()
+class_names = y.unique()
+tableMatris = pd.DataFrame(knn_cmatrix, index=class_namesEq, columns=class_namesEq)
+st.table(tableMatris.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
+
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.heatmap(knn_cmatrix, annot=True, cmap='Blues', fmt='g', xticklabels=class_namesEq, yticklabels=class_namesEq, ax=ax)
+plt.title('k-NN Karışıklık Matrisi')
+st.pyplot(fig)
 
 
 accuracyknn = accuracy_score(yTest, yPred)
@@ -132,6 +138,7 @@ print("k-nn Doğruluk:", accuracyknn)
 print("k-nn Hassasiyet:", precisionknn)
 print("k-nn Duyarlılık:", recallknn)
 print("k-nnF1 Skoru:", f1knn)
+
 
 st.write("""
     <div style="text-align: center;">
@@ -145,7 +152,7 @@ if not user_input.isnull().values.any():  # Check if there are no null values
     user_input_scaled = skaler.transform(user_input[secilen_ozellik])
     
     # Tahmin yapın
-    knn_user_prediction = knnmodel.predict(user_input_scaled)
+    knn_user_prediction = knn_model.predict(user_input_scaled)
     
     st.write("""
         <div style="text-align: center;">
@@ -157,3 +164,5 @@ if not user_input.isnull().values.any():  # Check if there are no null values
     st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0]]}")
 else:
     st.error("Kullanıcı girişi eksik veya hatalı. Lütfen tüm verileri doldurun.")
+
+
