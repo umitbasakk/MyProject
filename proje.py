@@ -43,15 +43,15 @@ features = ['RI', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Ba', 'Fe']
 for feature in features:
     df[feature] = df[feature].apply(lambda v: (v - df[feature].min()) / (df[feature].max() - df[feature].min()))
 
-# Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur.
+###Filtre Yöntemi ile Özellik eleme Korelasyonu 0.3 üstü özellikler tutulur.
 target = 'Type'
 korelasyon = df.corr()
 korelasyon_hdf = abs(korelasyon[target])
 secilen_ozellik = korelasyon_hdf[korelasyon_hdf > 0.3].index.tolist()
 FList = df[secilen_ozellik]
 secilen_ozellik.remove('Type')
+secilen_ozellik.remove('ID')
 FListNoClass = df[secilen_ozellik]
-
 # Kullanıcıdan giriş verilerini alın
 st.write("""
     <div style="text-align: center;text-color:#ff0000;">
@@ -78,50 +78,61 @@ values = [Ri_value, Na_value, Mg_value, Al_value, Si_value, K_value, Ca_value, B
 user_input = pd.DataFrame([values], columns=datas)
 st.table(user_input.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
 
-# Modelleme ve değerlendirme
+
+######################################################################## k-nn Veri Modeli ########################################################################################################################
+
 X = FList.iloc[:, :-1]
 y = FList.iloc[:, -1]
 
-testSize = 0.2
+testSize=0.2
+
 xTrain, xTest, yTrain, yTest = train_test_split(X, y, test_size=testSize, random_state=42)
 
 skaler = StandardScaler()
 Xtrain_scaled = skaler.fit_transform(xTrain)
 Xtest_scaled = skaler.transform(xTest)
 
-# KNN Modeli Eğitimi ve Değerlendirme
-knn_model = KNeighborsClassifier(n_neighbors=5)
-knn_model.fit(Xtrain_scaled, yTrain)
-knn_yPred = knn_model.predict(Xtest_scaled)
+knnmodel = KNeighborsClassifier(n_neighbors=5)
+knnmodel.fit(Xtrain_scaled, yTrain)
 
-knn_cmatrix = confusion_matrix(yTest, knn_yPred)
-accuracyknn = accuracy_score(yTest, knn_yPred)
-precisionknn = precision_score(yTest, knn_yPred, average='macro', zero_division=1)
-recallknn = recall_score(yTest, knn_yPred, average='macro', zero_division=1)
-f1knn = f1_score(yTest, knn_yPred, average='macro', zero_division=1)
+yPred = knnmodel.predict(Xtest_scaled)
 
-# Sonuçları Görselleştirme
-st.write("""
-    <div style="text-align: center;">
-        PCA Uygulandıktan Sonra
-    </div>
-""", unsafe_allow_html=True)
-st.write("Karışıklık Matrisi:")
+yt = pd.DataFrame(yTest)
+class_names = yt['Type'].unique()
+cmatrix = confusion_matrix(yTest, yPred)
 
-class_names = y.unique()
-class_namesEq = ["F.İ Görmüş Bina Penceresi", "F.İ Görmemiş Bina Penceresi", "F.İ Görmüş Araç Camı", "Konteyner Camı", "Yemek Takımları", "Far Camı"]
-tableMatris = pd.DataFrame(knn_cmatrix, index=class_namesEq, columns=class_namesEq)
-st.table(tableMatris.style.set_table_attributes('style="font-size: 20px; width: 100%; text-align: center;"'))
+class_namesEq = [None] * len(class_names)
 
-fig, ax = plt.subplots(figsize=(8, 6))
-sns.heatmap(knn_cmatrix, annot=True, cmap='Blues', fmt='g', xticklabels=class_namesEq, yticklabels=class_namesEq, ax=ax)
-plt.title('k-NN Karışıklık Matrisi')
-st.pyplot(fig)
+for i in range(len(class_namesEq)):
+    if class_names[i] == 1:
+        class_namesEq[i] = "F.İ Görmüş Bina Penceresi"
+    elif class_names[i] == 2:
+        class_namesEq[i] = "F.İ Görmemiş Bina Penceresi"
+    elif class_names[i] == 3:
+        class_namesEq[i] = "F.İ Görmüş Araç Camı"
+    elif class_names[i] == 5:
+        class_namesEq[i] = "Konteyner Camı"
+    elif class_names[i] == 6:
+        class_namesEq[i] = "Yemek Takımları"
+    elif class_names[i] == 7:
+        class_namesEq[i] = "Far Camı"
 
-st.write(f"k-nn Doğruluk: {accuracyknn:.2f}")
-st.write(f"k-nn Hassasiyet: {precisionknn:.2f}")
-st.write(f"k-nn Duyarlılık: {recallknn:.2f}")
-st.write(f"k-nn F1 Skoru: {f1knn:.2f}")
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(cmatrix, annot=True, cmap='Blues', fmt='g', xticklabels=class_namesEq, yticklabels=class_namesEq)
+plt.title('k-NN Ağacı Karışıklık Matrisi')
+plt.show()
+
+
+accuracyknn = accuracy_score(yTest, yPred)
+precisionknn = precision_score(yTest, yPred, average='macro',zero_division=1)
+recallknn = recall_score(yTest, yPred, average='macro',zero_division=1)
+f1knn = f1_score(yTest, yPred, average='macro',zero_division=1)
+
+print("k-nn Doğruluk:", accuracyknn)
+print("k-nn Hassasiyet:", precisionknn)
+print("k-nn Duyarlılık:", recallknn)
+print("k-nnF1 Skoru:", f1knn)
 
 st.write("""
     <div style="text-align: center;">
@@ -142,7 +153,8 @@ if not user_input.isnull().values.any():  # Check if there are no null values
             Kullanıcı Girişi ile Tahmin
         </div>
     """, unsafe_allow_html=True)
-    st.write(knn_user_prediction[0])
+    
     # Tahmin sonucunu sınıf adıyla birlikte gösterin
+    st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0]]}")
 else:
     st.error("Kullanıcı girişi eksik veya hatalı. Lütfen tüm verileri doldurun.")
