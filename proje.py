@@ -131,7 +131,6 @@ st.write("""
 """, unsafe_allow_html=True)
 
 # Kullanıcıdan alınan verileri ölçeklendirin ve tahmin yapın
-try:
     # Girdi verilerini ölçeklendirin
     user_input_scaled = skaler.transform(user_input)
     
@@ -146,5 +145,4 @@ try:
     
     # Tahmin sonucunu sınıf adıyla birlikte gösterin
     st.write(f"Tahmin: {class_namesEq[knn_user_prediction[0] - 1]}")
-except Exception as e:
-    st.error("Kullanıcı girişi ile tahmin yapılamadı. Lütfen girdi verilerini kontrol edin.")
+
